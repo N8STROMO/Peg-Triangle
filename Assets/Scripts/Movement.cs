@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour {
 
+  private Vector2 mouseOver;
+  private Vector2 dragStart;
+  private Vector2 dragEnd;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -13,4 +17,24 @@ public class Movement : MonoBehaviour {
 	void Update () {
 		
 	}
+
+  void UpdateMouseOver()
+  {
+
+  }
+
+  void SelectPiece()
+  {
+
+  }
+
+  void UpdatePieceDrag()
+  {
+
+  }
+
+  void MovePiece()
+  {
+
+  }
 }

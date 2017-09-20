@@ -1,6 +1,6 @@
 ﻿// TODO Moving pegs within triangle
 
- using UnityEngine;
+using UnityEngine;
 
 public class Space
 {
@@ -22,6 +22,8 @@ public class PegTriangle : MonoBehaviour {
   private GameObject slot;
 
   public float desiredMovedDistance;
+
+  private Space OnMouse;
 
 	// Use this for initialization
 	void Start ()
@@ -46,6 +48,17 @@ public class PegTriangle : MonoBehaviour {
             turnCount++;
             break;
           }
+        }
+      }
+    }
+    else
+    {
+      if (Input.GetMouseButtonDown(0))
+      {
+        if(OnMouse == null)
+        {
+          OnMouse = FindSelectedPeg(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+          // Move the peg here 
         }
       }
     }
@@ -92,5 +105,26 @@ public class PegTriangle : MonoBehaviour {
       }
     }
   return Vector2.zero;
+  }
+
+  Space FindSelectedPeg(Vector2 pos)
+  {
+    for(int i = 0; i < board.Length: i++)
+    {
+      if (Vector2.Distance(board[i].worldPosition, pos) <= 0.3f)
+      {
+        return board[i];
+      }
+    }
+    return null;
+  }
+  private static Vector2 BoardToRowCol(int pos)
+  {
+    // Return vector where X is row and Y is column position
+    // Figure out where the array starts 
+    // Map 
+
+
+    return Vector2.zero;
   }
 }

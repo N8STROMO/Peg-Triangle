@@ -109,7 +109,7 @@ public class PegTriangle : MonoBehaviour {
 
   Space FindSelectedPeg(Vector2 pos)
   {
-    for(int i = 0; i < board.Length: i++)
+    for(int i = 0; i < board.Length; i++)
     {
       if (Vector2.Distance(board[i].worldPosition, pos) <= 0.3f)
       {

@@ -366,8 +366,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b326d04ccf29e8c4392b8e676004eed8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pegPrefab: {fileID: 1490471746771616, guid: d12aa8559ce191a44b3d175fde00ad5d, type: 2}
-  slot: {fileID: 0}
+  pegPrefab: {fileID: 114130628120007882, guid: d12aa8559ce191a44b3d175fde00ad5d,
+    type: 2}
+  spacePrefab: {fileID: 114228056838663800, guid: 8d4d187346f923148b29ddcad9b53ffe,
+    type: 2}
   desiredMovedDistance: 0
 --- !u!4 &1754386116
 Transform:

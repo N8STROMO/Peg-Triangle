@@ -1,11 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Space : MonoBehaviour
 {
   public Peg associatedObject
   {
-    get; private set;
+    get; private set; // Can only set the variale locally?
   }
 
   public bool filled

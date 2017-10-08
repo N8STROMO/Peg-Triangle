@@ -1,6 +1,5 @@
 ﻿// TODO Moving pegs within triangle
 
-using System;
 using UnityEngine;
 
 public class PegTriangle : MonoBehaviour
@@ -65,25 +64,33 @@ public class PegTriangle : MonoBehaviour
   {
     if (Input.GetMouseButtonDown(0))
     {
+      // We need to convert the Input.mousePosition to world space to then compare it to all slot positions.
       Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
       for (int i = 0; i < board.Length; i++)
       {
+        // Create a variable to assign our current slot in the for loop to.
         Space selectedSpace = board[i];
         if (Vector2.Distance(selectedSpace.transform.position, mousePosition) <= .3f)
         {
+          // Successfully found a slot close enough to the mouse.
+
+          // Check if the slot has a peg or not.
           if (selectedSpace.associatedObject != null)
           { // Changing selected peg
             selectedPeg = selectedSpace.associatedObject;
             break;
           }
+          // Otherwise we must have clicked an empty space and therefor proceed down branch.
           else if (selectedPeg != null)
           { // Attempting a move
-            float distance = (selectedSpace.transform.position - selectedPeg.transform.position).magnitude;
-            if (Mathf.Abs(distance - idealDistance) < acceptableThreshold)
-            { // This is a valid move distance and angle
+            // .magnitude will return the length of a vector (Example: (1,0,0) = 1).
+            float distance = (selectedSpace.transform.position - selectedPeg.transform.position).magnitude; // This is the distance between our initial selection and final move point.
+            if (Mathf.Abs(distance - idealDistance) < acceptableThreshold) // Check the distance of our move to ensure it is valid.
+            { // This is a valid move distance and ANGLE?
 
+              // TODO Lerp; see documentation
               Vector3 midpoint = Vector3.Lerp(selectedSpace.transform.position, selectedPeg.transform.position, .5f);
-              Space midSpace = FindSelectedSpace(midpoint);
+              Space midSpace = FindSelectedSpace(midpoint); // Finding the slot associated with our midpoint.
               if (midSpace.associatedObject != null)
               { // This is a valid skip over
                 selectedSpace.PlacePeg(selectedPeg);
@@ -149,6 +156,7 @@ public class PegTriangle : MonoBehaviour
       board[i].PlacePeg(peg);
     }
 
+    // One random pegs disappears at start of game.
     int tileToDrop = SelectRandomTileToDrop();
     board[tileToDrop].DestroyPeg();
   }
@@ -158,11 +166,13 @@ public class PegTriangle : MonoBehaviour
     int tileToDrop = -1;
     while (true)
     {
-      tileToDrop = UnityEngine.Random.Range(0, board.Length);
+      tileToDrop = Random.Range(0, board.Length);
+
       Space spaceToDrop = board[tileToDrop];
       // This loop tests each of the possible move directions to see if this is a valid start
       for (int i = 0; i < 6; i++)
       {
+        // ASK HD
         float angle = i * 60 + 30;
         Quaternion rotation = Quaternion.Euler(0, 0, angle);
         Vector2 testPosition = spaceToDrop.transform.position
@@ -209,14 +219,5 @@ public class PegTriangle : MonoBehaviour
       }
     }
     return null;
-  }
-  private static Vector2 BoardToRowCol(int pos)
-  {
-    // Return vector where X is row and Y is column position
-    // Figure out where the array starts 
-    // Map 
-
-
-    return Vector2.zero;
   }
 }

@@ -1,9 +1,7 @@
-﻿// TODO Moving pegs within triangle
-
-using UnityEngine;
-
+﻿using UnityEngine;
 public class PegTriangle : MonoBehaviour
 {
+  #region Data
   const float idealDistance = 2.118034f;
   const float acceptableThreshold = .2f;
 
@@ -44,7 +42,9 @@ public class PegTriangle : MonoBehaviour
   public float desiredMovedDistance;
 
   private Space OnMouse;
+  #endregion
 
+  #region Events
   protected void Awake()
   {
     instance = this;
@@ -112,7 +112,9 @@ public class PegTriangle : MonoBehaviour
       }
     }
   }
+  #endregion
 
+  #region Helpers
   private void CheckWinCondition()
   {
     int pegCount = 0;
@@ -161,26 +163,43 @@ public class PegTriangle : MonoBehaviour
     board[tileToDrop].DestroyPeg();
   }
 
+  // Goal: remove a random tile from the board.
+  // Challenge: it can't be just any tile.  remove one from the center and no moves are possible.
   private int SelectRandomTileToDrop()
   {
+    // This is the random tile to remove from the board... if it turns out to be a valid selection.
+    // This could have been declared below, inside the while loop.
     int tileToDrop = -1;
+    // Keep trying until a valid selection is found.
     while (true)
     {
+      // Pick any random tile to drop.
       tileToDrop = Random.Range(0, board.Length);
-
+      // This is the space we randomly selected. We know this is a valid space... 
+      // but we don't know if removing this space results in a playable game or not yet.
       Space spaceToDrop = board[tileToDrop];
-      // This loop tests each of the possible move directions to see if this is a valid start
+      // This loop tests each of the possible move directions to see if this is a valid start.
+      // The board is a hex design...so at best, a space has 6 possible moves to choose from.
       for (int i = 0; i < 6; i++)
       {
-        // ASK HD
+        // Instead of doing hex coordinates (see cube coordinates here http://redblobgames.com/grids/hexagons).
+        // we simplify by using angles.  A possible move is 30 degrees, 90, 150, 210, 270, 330.
         float angle = i * 60 + 30;
         Quaternion rotation = Quaternion.Euler(0, 0, angle);
+        // We selected a random empty space.  To know if the game has any valid moves, we need to know if there is a move which can land on this empty spot.
+        // The starting position which lands here is this position plus...
+        // The angle we selected (changes each iteration of this for loop) times the distance a move travels.
+        // This multiplication gives us the offset from the current tile's position.
         Vector2 testPosition = spaceToDrop.transform.position
           + rotation * new Vector2(0, idealDistance);
+        // This shows the all tests performed in the scene view for 1 second (no impact on the final game).
         Debug.DrawLine(spaceToDrop.transform.position, testPosition, Color.red, 1);
+        // All we need to know is if this starting position actually exists.
+        // If a center space was selected to remove, test position would never be a valid space and we loop to try another random space.
         Space space = FindSelectedSpace(testPosition);
         if (space != null)
         {
+          // The space, representing a possible starting move, exists... we can remove this tile.
           return tileToDrop;
         }
       }
@@ -220,4 +239,5 @@ public class PegTriangle : MonoBehaviour
     }
     return null;
   }
+  #endregion
 }
